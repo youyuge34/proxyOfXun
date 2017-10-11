@@ -11,12 +11,11 @@
 @time: 17/10/10 下午8:12
 
 """
-import sys
 import time
 import hashlib
 import requests
-from JobSpider.settings import MY_USER_AGENT
 import random
+from userAgents import MY_USER_AGENT
 from scrapy.selector import Selector
 import codecs
 
@@ -54,9 +53,11 @@ if __name__ == '__main__':
     response = spider.start_crawl('https://www.amazon.com/PDF-Max-Annotate-documents-Forms/product-reviews/B00RDSHI66/ref=cm_cr_arp_d_paging_btm_next_2?ie=UTF8&reviewerType=all_reviews&pageNumber=2')
     comments = Selector(text= response).css('#cm_cr-review_list .review')
     for selector in comments:
+        #爬取亚马逊评论页的评论信息，包括作者与标题
         dic = dict()
         author = selector.css('.author::text').extract_first('')
         title = selector.css('.review-title::text').extract_first('')
         dic['author'] = author
         dic['title'] = title
+        print dic
 
